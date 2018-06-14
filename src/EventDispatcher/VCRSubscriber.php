@@ -46,8 +46,15 @@ class VCRSubscriber implements EventSubscriberInterface
         $configuration = $this->configurationResolver->resolve($event->getScenario());
 
         if ($configuration) {
+            $filename = $configuration->getFileNamingStrategy()->createFilename(
+                $event->getFeature(),
+                $event->getScenario(),
+                $this->outline
+            );
+
+            $this->configureVCR($configuration);
             $this->videorecorder->turnOn();
-            $this->configureVCR($configuration, $event);
+            $this->configureCassette($filename);
         }
     }
 
@@ -79,7 +86,7 @@ class VCRSubscriber implements EventSubscriberInterface
         $this->outline = null;
     }
 
-    private function configureVCR(Configuration $configuration, ScenarioTested $event)
+    private function configureVCR(Configuration $configuration)
     {
         $currentVcrConfiguration = $this->videorecorder->configure();
 
@@ -98,12 +105,10 @@ class VCRSubscriber implements EventSubscriberInterface
         if ($configuration->getMode()) {
             $currentVcrConfiguration->setMode($configuration->getMode());
         }
+    }
 
-        $filename = $configuration->getFileNamingStrategy()->createFilename(
-            $event->getFeature(),
-            $event->getScenario(),
-            $this->outline
-        );
+    private function configureCassette($filename)
+    {
         $this->videorecorder->insertCassette($filename);
     }
 
