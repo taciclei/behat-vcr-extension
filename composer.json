@@ -1,5 +1,5 @@
 {
-    "name": "aaa2000/behat-vcr-extension",
+    "name": "phpjit/behat-vcr-extension",
     "type": "behat-extension",
     "description": "Record your HTTP interactions in behat scenarios and replay them during future test runs",
     "keywords": ["test", "http", "vcr"],
@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.4",
         "behat/behat": "~3.0",
-        "php-vcr/php-vcr": "~1.2"
+        "phpjit/php-vcr": "dev-master"
     },
     "autoload": {
         "psr-4" : {
